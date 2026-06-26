@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { 
-  MessageSquare, 
-  CheckCircle2, 
-  XCircle, 
-  Clock, 
-  ChevronLeft, 
+import {
+  MessageSquare,
+  CheckCircle2,
+  XCircle,
+  Clock,
+  ChevronLeft,
   MoreVertical,
   Search,
   Filter,
@@ -14,9 +14,38 @@ import {
   User
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import ProposalDetailsModal from '../components/ProposalDetailsModal';
 
 const ProposalsOrders = () => {
   const [activeTab, setActiveTab] = useState('negotiation');
+  const [selectedProposal, setSelectedProposal] = useState(null);
+
+  const mockSentProposals = {
+    1: {
+      title: "تطوير منصة تعليمية متكاملة",
+      totalPrice: "1,200",
+      revisions: "تعديلين",
+      timeline: "شهر واحد",
+      validity: "14 يوم",
+      additionalTerms: "يجب توفير المحتوى التعليمي قبل البدء.",
+      milestones: [
+        { id: 'm1', title: 'تصميم واجهة المستخدم', description: 'تصميم الواجهات لجميع صفحات المنصة.' },
+        { id: 'm2', title: 'البرمجة', description: 'تطوير الباك اند والفرونت اند.' }
+      ]
+    },
+    2: {
+      title: "حملة تسويق رقمي لشهر نوفمبر",
+      totalPrice: "850",
+      revisions: "تعديل واحد",
+      timeline: "أسبوعين",
+      validity: "7 أيام",
+      additionalTerms: "ميزانية الإعلانات غير مشمولة في السعر.",
+      milestones: [
+        { id: 'm3', title: 'خطة المحتوى', description: 'إعداد خطة المحتوى وتصاميم البوسترات.' },
+        { id: 'm4', title: 'إدارة الحملة', description: 'إطلاق الحملة ومتابعتها لمدة شهر.' }
+      ]
+    }
+  };
 
   return (
     <div className="p-8">
@@ -30,26 +59,26 @@ const ProposalsOrders = () => {
 
       {/* SECTION 2: Tabs Navigation */}
       <div className="flex border-b border-gray-200 mb-8 gap-8 overflow-x-auto whitespace-nowrap">
-        <TabButton 
-          label="قيد التفاوض" 
-          active={activeTab === 'negotiation'} 
-          onClick={() => setActiveTab('negotiation')} 
+        <TabButton
+          label="قيد التفاوض"
+          active={activeTab === 'negotiation'}
+          onClick={() => setActiveTab('negotiation')}
         />
-        <TabButton 
-          label="الطلبات المباشرة" 
-          active={activeTab === 'direct'} 
-          onClick={() => setActiveTab('direct')} 
+        <TabButton
+          label="الطلبات المباشرة"
+          active={activeTab === 'direct'}
+          onClick={() => setActiveTab('direct')}
         />
-        <TabButton 
-          label="العروض المرسلة" 
-          active={activeTab === 'sent'} 
-          onClick={() => setActiveTab('sent')} 
+        <TabButton
+          label="العروض المرسلة"
+          active={activeTab === 'sent'}
+          onClick={() => setActiveTab('sent')}
         />
       </div>
 
       {/* SECTION 3: Tab Content Area */}
       <div>
-        
+
         {/* A. Content for "قيد التفاوض" (Inquiries & Chats) */}
         {activeTab === 'negotiation' && (
           <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -58,10 +87,9 @@ const ProposalsOrders = () => {
                 <span className="w-1.5 h-6 bg-[#01696F] rounded-full"></span>
                 قيد التفاوض
               </h2>
-              <button className="text-sm text-[#01696F] font-bold hover:underline">تصفية</button>
             </div>
             <div className="grid grid-cols-1 gap-4">
-              <NegotiationCard 
+              <NegotiationCard
                 client="أحمد محمد"
                 service="تصميم واجهة مستخدم لتطبيق جوال"
                 lastMsg="مرحباً، لقد اطلعت على معرض أعمالك وأعجبني جداً. هل يمكننا مناقشة تفاصيل المشروع..."
@@ -69,7 +97,7 @@ const ProposalsOrders = () => {
                 status="بانتظار ردك"
                 statusColor="bg-amber-50 text-amber-600 border-amber-100"
               />
-              <NegotiationCard 
+              <NegotiationCard
                 client="شركة الأفق"
                 service="برمجة موقع تعريفي للشركة"
                 lastMsg="نحتاج إلى بعض التعديلات على النطاق المقترح، هل يمكننا ترتيب مكالمة غداً؟"
@@ -92,13 +120,13 @@ const ProposalsOrders = () => {
               <span className="bg-blue-100 text-[#01696F] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">جديد</span>
             </div>
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <DirectOrderCard 
+              <DirectOrderCard
                 client="مريم خالد"
                 service="تصميم شعار وهوية بصرية"
                 price="500"
                 delivery="15 أكتوبر 2023 (بعد 5 أيام)"
               />
-              <DirectOrderCard 
+              <DirectOrderCard
                 client="مؤسسة التقنية الذكية"
                 service="كتابة محتوى لمقالات تقنية"
                 price="350"
@@ -118,27 +146,36 @@ const ProposalsOrders = () => {
               </h2>
             </div>
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden divide-y divide-gray-100">
-              <SentProposalRow 
+              <SentProposalRow
                 client="د. سامي عبدالله"
                 title="تطوير منصة تعليمية متكاملة"
                 amount="1,200"
                 date="10 أكتوبر"
                 status="قيد المراجعة"
                 statusType="pending"
+                onViewDetails={() => setSelectedProposal(mockSentProposals[1])}
               />
-              <SentProposalRow 
+              <SentProposalRow
                 client="متجر الأناقة"
                 title="حملة تسويق رقمي لشهر نوفمبر"
                 amount="850"
                 date="05 أكتوبر"
                 status="مقبول"
                 statusType="accepted"
+                onViewDetails={() => setSelectedProposal(mockSentProposals[2])}
               />
             </div>
           </section>
         )}
 
       </div>
+
+      {selectedProposal && (
+        <ProposalDetailsModal 
+          proposal={selectedProposal} 
+          onClose={() => setSelectedProposal(null)} 
+        />
+      )}
     </div>
   );
 };
@@ -146,13 +183,12 @@ const ProposalsOrders = () => {
 // --- Helper Components ---
 
 const TabButton = ({ label, active, onClick }) => (
-  <button 
+  <button
     onClick={onClick}
-    className={`pb-4 px-2 text-sm font-bold transition-all border-b-2 ${
-      active 
-        ? 'text-[#01696F] border-[#01696F]' 
-        : 'text-slate-400 border-transparent hover:text-slate-600'
-    }`}
+    className={`pb-4 px-2 text-sm font-bold transition-all border-b-2 ${active
+      ? 'text-[#01696F] border-[#01696F]'
+      : 'text-slate-400 border-transparent hover:text-slate-600'
+      }`}
   >
     {label}
   </button>
@@ -175,7 +211,7 @@ const NegotiationCard = ({ client, service, lastMsg, time, status, statusColor }
         <p className="text-sm text-slate-500 line-clamp-1">"{lastMsg}"</p>
       </div>
     </div>
-    
+
     <div className="flex flex-col md:items-end gap-3 shrink-0">
       <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
         <Clock size={14} />
@@ -225,7 +261,7 @@ const DirectOrderCard = ({ client, service, price, delivery }) => (
   </div>
 );
 
-const SentProposalRow = ({ client, title, amount, date, status, statusType }) => {
+const SentProposalRow = ({ client, title, amount, date, status, statusType, onViewDetails }) => {
   const statusStyles = {
     pending: 'bg-amber-50 text-amber-600 border-amber-100',
     accepted: 'bg-green-50 text-green-600 border-green-100',
@@ -253,7 +289,13 @@ const SentProposalRow = ({ client, title, amount, date, status, statusType }) =>
             {status}
           </span>
         </div>
-        <button className="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-[#01696F] transition-colors">
+        <button 
+          onClick={(e) => {
+            e.stopPropagation();
+            onViewDetails && onViewDetails();
+          }}
+          className="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-[#01696F] transition-colors"
+        >
           عرض التفاصيل
           <ChevronLeft size={18} className="transition-transform group-hover:-translate-x-1" />
         </button>

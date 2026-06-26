@@ -1,7 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import FreelancerLayout from './layouts/FreelancerLayout';
 import Dashboard from './pages/Dashboard';
-import ProfileServices from './pages/ProfileServices';
+import Profile from './pages/Profile';
+import Services from './pages/Services';
 import ProposalsOrders from './pages/ProposalsOrders';
 import ChatWorkspace from './pages/ChatWorkspace';
 import CreateProposal from './pages/CreateProposal';
@@ -14,7 +15,8 @@ function App() {
     <Routes>
       <Route path="/" element={<FreelancerLayout />}>
         <Route index element={<Dashboard />} />
-        <Route path="profile-services" element={<ProfileServices />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="services" element={<Services />} />
         <Route path="proposals" element={<ProposalsOrders />} />
         <Route path="chat/:id" element={<ChatWorkspace />} />
         <Route path="chat/:id/create-proposal" element={<CreateProposal />} />

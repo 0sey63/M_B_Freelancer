@@ -1,12 +1,18 @@
-import { 
-  CheckCircle2, 
-  Clock, 
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  CheckCircle2,
+  Clock,
   TrendingUp,
   Award,
   ArrowUpRight
 } from 'lucide-react';
+import ProposalDetailsModal from '../components/ProposalDetailsModal';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  const [selectedProposal, setSelectedProposal] = useState(null);
+
   // Mock Data
   const stats = [
     { label: 'المشاريع النشطة', value: '3', icon: <Clock className="text-[#01696f]" size={24} />, change: 'حالي' },
@@ -16,9 +22,42 @@ const Dashboard = () => {
   ];
 
   const recentRequests = [
-    { id: 1, client: 'شركة الرواد للتجارة', task: 'تصميم هوية بصرية كاملة', status: 'بانتظار ردك' },
+    { 
+      id: 1, 
+      client: 'شركة الرواد للتجارة', 
+      task: 'تصميم هوية بصرية كاملة', 
+      status: 'بانتظار ردك',
+      proposal: {
+        title: 'تصميم هوية بصرية كاملة',
+        totalPrice: '1,500',
+        revisions: 'تعديلين',
+        timeline: 'أسبوعين',
+        validity: '7 أيام',
+        additionalTerms: 'تسليم الملفات المصدرية المفتوحة.',
+        milestones: [
+          { id: 'm1', title: 'تصميم الشعار', description: 'تقديم 3 نماذج للشعار' },
+          { id: 'm2', title: 'تصميم الهوية', description: 'تطبيق الشعار على المطبوعات' }
+        ]
+      }
+    },
     { id: 2, client: 'مؤسسة سماء التقنية', task: 'تطوير تطبيق جوال (المرحلة الأولى)', status: 'تم الإرسال', sent: true },
-    { id: 3, client: 'أفق للحلول الرقمية', task: 'استشارة تقنية (مكالمة فيديو)', status: 'بانتظار ردك' },
+    { 
+      id: 3, 
+      client: 'أفق للحلول الرقمية', 
+      task: 'استشارة تقنية (مكالمة فيديو)', 
+      status: 'بانتظار ردك',
+      proposal: {
+        title: 'استشارة تقنية (مكالمة فيديو)',
+        totalPrice: '150',
+        revisions: 'بدون تعديلات',
+        timeline: 'يوم واحد',
+        validity: '3 أيام',
+        additionalTerms: 'المكالمة مدتها ساعة واحدة كحد أقصى.',
+        milestones: [
+          { id: 'm3', title: 'جلسة الاستشارة', description: 'مكالمة فيديو لمناقشة المتطلبات التقنية.' }
+        ]
+      }
+    },
   ];
 
   const upcomingDeliveries = [
@@ -28,15 +67,18 @@ const Dashboard = () => {
 
   return (
     <div className="p-8 space-y-8">
-      
+
       {/* Welcome Banner */}
-      <div className="bg-[#01696f] rounded-2xl p-8 text-white relative overflow-hidden shadow-lg shadow-[#01696f15]">
+      <div className="bg-gradient-to-br from-[#062c30] via-[#0c4e54] to-[#01696f] rounded-2xl p-8 text-white relative overflow-hidden shadow-lg shadow-[#028090]/20">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <h1 className="text-3xl font-bold mb-2">مرحباً محمد، إليك ملخص نشاطك اليوم.</h1>
             <p className="text-white/80">لديك 3 رسائل جديدة ومشروع واحد يتطلب تسليماً قريباً.</p>
           </div>
-          <button className="bg-white text-[#01696f] px-6 py-2.5 rounded-lg font-bold text-sm hover:bg-gray-100 transition-colors shrink-0">
+          <button 
+            onClick={() => navigate('/projects')}
+            className="bg-white text-[#01696f] px-6 py-2.5 rounded-lg font-bold text-sm hover:bg-gray-100 transition-colors shrink-0"
+          >
             عرض المهام العاجلة ←
           </button>
         </div>
@@ -53,13 +95,12 @@ const Dashboard = () => {
               <div className="p-3 bg-gray-50 rounded-xl">
                 {stat.icon}
               </div>
-              <span className={`text-xs font-bold px-2 py-1 rounded-full ${
-                stat.highlight ? 'bg-blue-50 text-[#01696f]' : 'bg-gray-100 text-gray-500'
-              }`}>
+              <span className={`text-xs font-bold px-2 py-1 rounded-full ${stat.highlight ? 'bg-blue-50 text-[#01696f]' : 'bg-gray-100 text-gray-500'
+                }`}>
                 {stat.change}
               </span>
             </div>
-            <p className="text-2xl font-black mb-1">{stat.value}</p>
+            <p className="text-2xl font-black bg-gradient-to-r from-[#0c4e54] to-[#01696f] bg-clip-text text-transparent mb-1">{stat.value}</p>
             <p className="text-sm text-gray-500 font-medium">{stat.label}</p>
           </div>
         ))}
@@ -67,14 +108,14 @@ const Dashboard = () => {
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+
         {/* Recent Requests (2/3) */}
         <div className="lg:col-span-2 space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold flex items-center gap-2">طلبات وردود حديثة</h2>
+            <h2 className="text-xl font-black bg-gradient-to-r from-[#0c4e54] to-[#01696f] bg-clip-text text-transparent flex items-center gap-2">طلبات وردود حديثة</h2>
             <button className="text-sm text-[#01696f] font-bold hover:underline">عرض الكل</button>
           </div>
-          
+
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div className="divide-y divide-gray-50">
               {recentRequests.map((req) => (
@@ -89,13 +130,15 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
-                    <span className={`px-3 py-1 text-xs font-bold rounded-full ${
-                      req.sent ? 'bg-gray-100 text-gray-600' : 'bg-amber-50 text-amber-600 border border-amber-100'
-                    }`}>
+                    <span className={`px-3 py-1 text-xs font-bold rounded-full ${req.sent ? 'bg-gray-100 text-gray-600' : 'bg-amber-50 text-amber-600 border border-amber-100'
+                      }`}>
                       {req.status}
                     </span>
                     {!req.sent && (
-                      <button className="px-6 py-2 bg-[#01696f] text-white text-sm font-bold rounded-lg hover:bg-[#0c4e54] transition-all flex items-center gap-2">
+                      <button 
+                        onClick={() => setSelectedProposal(req.proposal)}
+                        className="px-6 py-2 bg-gradient-to-r from-[#01696f] to-[#028090] text-white text-sm font-bold rounded-lg hover:from-[#0c4e54] hover:to-[#01696f] shadow-md shadow-[#01696f]/20 transition-all flex items-center gap-2"
+                      >
                         عرض الطلب
                       </button>
                     )}
@@ -113,7 +156,7 @@ const Dashboard = () => {
 
         {/* Imminent Deliveries (1/3) */}
         <div className="space-y-6">
-          <h2 className="text-xl font-bold flex items-center gap-2">
+          <h2 className="text-xl font-black bg-gradient-to-r from-[#0c4e54] to-[#01696f] bg-clip-text text-transparent flex items-center gap-2">
             <span className="text-red-500">⚠️</span>
             مشاريع تقترب من التسليم
           </h2>
@@ -125,9 +168,8 @@ const Dashboard = () => {
                     <h3 className="font-bold text-gray-800">{delivery.title}</h3>
                     <p className="text-[10px] text-gray-500">العميل: {delivery.client}</p>
                   </div>
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-                    delivery.status === 'urgent' ? 'bg-red-50 text-red-500' : 'bg-blue-50 text-blue-500'
-                  }`}>
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${delivery.status === 'urgent' ? 'bg-red-50 text-red-500' : 'bg-blue-50 text-blue-500'
+                    }`}>
                     {delivery.dueDate}
                   </span>
                 </div>
@@ -137,10 +179,9 @@ const Dashboard = () => {
                     <span>{delivery.progress}%</span>
                   </div>
                   <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div 
-                      className={`h-full rounded-full transition-all duration-500 ${
-                        delivery.status === 'urgent' ? 'bg-red-500' : 'bg-[#01696f]'
-                      }`} 
+                    <div
+                      className={`h-full rounded-full transition-all duration-500 ${delivery.status === 'urgent' ? 'bg-red-500' : 'bg-[#01696f]'
+                        }`}
                       style={{ width: `${delivery.progress}%` }}
                     ></div>
                   </div>
@@ -156,6 +197,14 @@ const Dashboard = () => {
         </div>
 
       </div>
+
+      {/* Proposal Details Modal */}
+      {selectedProposal && (
+        <ProposalDetailsModal 
+          proposal={selectedProposal} 
+          onClose={() => setSelectedProposal(null)} 
+        />
+      )}
     </div>
   );
 };

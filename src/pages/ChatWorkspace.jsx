@@ -1,9 +1,9 @@
-import { 
-  ArrowRight, 
-  Plus, 
-  Paperclip, 
-  Send, 
-  FileText, 
+import {
+  ArrowRight,
+  Plus,
+  Paperclip,
+  Send,
+  FileText,
   User
 } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -19,7 +19,7 @@ const ChatWorkspace = () => {
       <header className="h-20 bg-white border-b border-gray-200 flex items-center justify-between px-8 shrink-0 z-10 shadow-sm">
         {/* Right Side: Back & Client Info (RTL -> Visual Right) */}
         <div className="flex items-center gap-4">
-          <button 
+          <button
             onClick={() => navigate('/proposals')}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors text-slate-500"
           >
@@ -27,7 +27,7 @@ const ChatWorkspace = () => {
           </button>
           <div className="relative">
             <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center border border-gray-100 overflow-hidden">
-               <User size={28} className="text-slate-300" />
+              <User size={28} className="text-slate-300" />
             </div>
             <div className="absolute -bottom-1 -end-1 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full"></div>
           </div>
@@ -39,7 +39,7 @@ const ChatWorkspace = () => {
 
         {/* Left Side: Actions (RTL -> Visual Left) */}
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={() => navigate(`/chat/${chatId}/create-proposal`)}
             className="flex items-center gap-2 px-6 py-3 bg-[#01696F] text-white rounded-xl font-bold text-sm shadow-lg shadow-[#01696F20] hover:bg-[#0c4e54] transition-all active:scale-95"
           >
@@ -51,14 +51,14 @@ const ChatWorkspace = () => {
 
       {/* SECTION 2: Chat Area (Scrollable) */}
       <div className="flex-1 overflow-y-auto p-8 space-y-8 bg-[#fcfcfd]">
-        
+
         {/* 1. Initial Context Message (System) */}
         <div className="flex justify-center">
           <div className="bg-slate-100/50 border border-slate-200/60 rounded-full px-6 py-2 flex items-center gap-3">
             <FileText size={14} className="text-slate-400" />
             <p className="text-[11px] font-bold text-slate-500 uppercase tracking-tight">
-              طلب مبدئي: <span className="text-slate-700">تصميم هوية بصرية</span> 
-              <span className="mx-2 text-slate-300">•</span> 
+              طلب مبدئي: <span className="text-slate-700">تصميم هوية بصرية</span>
+              <span className="mx-2 text-slate-300">•</span>
               ميزانية متوقعة: <span className="text-[#01696F]">$1000</span>
             </p>
           </div>
@@ -68,7 +68,7 @@ const ChatWorkspace = () => {
         <div className="flex justify-start">
           <div className="max-w-[60%] flex gap-4">
             <div className="w-9 h-9 rounded-lg bg-slate-100 shrink-0 flex items-center justify-center text-slate-300">
-               <User size={20} />
+              <User size={20} />
             </div>
             <div className="space-y-1">
               <div className="bg-white border border-gray-200 p-4 rounded-2xl rounded-tr-none shadow-sm text-sm leading-relaxed text-slate-700">
@@ -118,9 +118,9 @@ const ChatWorkspace = () => {
             <button className="p-2 text-slate-400 hover:text-[#01696F] transition-colors rounded-lg hover:bg-white shadow-none hover:shadow-sm">
               <Paperclip size={22} />
             </button>
-            <input 
-              type="text" 
-              placeholder="اكتب رسالتك هنا..." 
+            <input
+              type="text"
+              placeholder="اكتب رسالتك هنا..."
               className="flex-1 bg-transparent border-none focus:outline-none focus:ring-0 text-sm py-2 placeholder:text-slate-400 text-slate-700"
             />
           </div>
